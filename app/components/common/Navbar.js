@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, Platform } from 'react-native';
+import {
+  StyleSheet, View, Text, Platform,
+} from 'react-native';
 
 import { statusBarHeight } from '../../utilities/Dimensions';
 
@@ -39,17 +41,17 @@ type P = {
   textStyles?: StyleSheet.Style,
 };
 
-const Navbar = ({ title, rightView, leftView, style, textStyles }: P) => {
-  return (
-    <View style={[styles.container, style]}>
-      {!!leftView && leftView()}
-      <View style={styles.titleView}>
-        <Text style={[styles.title, textStyles]}>{title}</Text>
-      </View>
-      {!!rightView && rightView()}
+const Navbar = ({
+  title, rightView, leftView, style, textStyles,
+}: P) => (
+  <View style={[styles.container, style]}>
+    {!!leftView && leftView()}
+    <View style={styles.titleView}>
+      <Text style={[styles.title, textStyles]}>{title}</Text>
     </View>
-  );
-}
+    {!!rightView && rightView()}
+  </View>
+);
 
 Navbar.defaultProps = {
   title: '',

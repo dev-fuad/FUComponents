@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
-import { StyleSheet, TextInput, View, Image } from 'react-native';
+import {
+  StyleSheet, TextInput, View, Image,
+} from 'react-native';
+
+type P = {
+  validator: Function,
+  containerStyle: StyleSheet.Style,
+  style: StyleSheet.Style,
+  icon: any,
+  iconOnRight: boolean,
+};
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'stretch',
-    
+
     borderWidth: 1,
     borderRadius: 5,
     padding: 5,
@@ -20,17 +30,14 @@ const styles = StyleSheet.create({
   },
 });
 
-class TextField extends Component {
+class TextField extends Component<P> {
   state = {
-    dirty: false,
-    borderColor: this.props.borderColor || '#CCC',
+    borderColor: this.props.borderColor || '#CCC', // eslint-disable-line
   };
 
   _onBlur = () => {
     const { validator } = this.props;
-    const newState = {
-      dirty: true,
-    };
+    const newState = {};
     if (validator && !validator()) {
       newState.borderColor = 'red';
     } else {
@@ -46,7 +53,6 @@ class TextField extends Component {
       style,
       icon,
       iconOnRight,
-      validation,
       ...other
     } = this.props;
 

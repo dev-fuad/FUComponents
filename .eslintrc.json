@@ -1,0 +1,10 @@
+{
+    "extends": "airbnb",
+    "parser": "babel-eslint",
+    "rules": {
+        "import/no-unresolved": [0],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "linebreak-style": [0],
+        "no-underscore-dangle": [0]
+    }
+}

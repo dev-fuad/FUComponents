@@ -1,6 +1,6 @@
-import { Dimensions, Platform, StatusBar } from "react-native";
+import { Dimensions, Platform, StatusBar } from 'react-native';
 
-export const { height, width } = Dimensions.get("window");
+export const { height, width } = Dimensions.get('window');
 
 export const vh = (value) => {
   if (value > 100) return height;
@@ -17,9 +17,9 @@ const isiPhoneX = (Platform.OS === 'ios')
       || (height === 896 && width === 414));
 
 export const statusBarHeight = (() => {
-  if (Platform.OS === 'android')
+  if (Platform.OS === 'android') {
     return StatusBar.currentHeight || 20;
-  
+  }
   if (isiPhoneX) {
     return 40;
   }
@@ -27,6 +27,4 @@ export const statusBarHeight = (() => {
   return 20;
 })();
 
-export const chinHeight = (() => {
-  return isiPhoneX ? 30 : 0;
-})();
+export const chinHeight = (() => (isiPhoneX ? 30 : 0))();
