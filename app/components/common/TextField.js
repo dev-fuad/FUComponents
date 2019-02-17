@@ -5,6 +5,7 @@ import {
 
 type P = {
   validator: Function,
+  onBlur: Function,
   containerStyle: StyleSheet.Style,
   style: StyleSheet.Style,
   icon: any,
@@ -35,14 +36,16 @@ class TextField extends Component<P> {
     borderColor: this.props.borderColor || '#CCC', // eslint-disable-line
   };
 
-  _onBlur = () => {
-    const { validator } = this.props;
+  _onBlur = (e) => {
+    const { validator, onBlur } = this.props;
     const newState = {};
     if (validator && !validator()) {
       newState.borderColor = 'red';
     } else {
       newState.borderColor = '#CCC';
     }
+
+    if (onBlur) onBlur(e);
 
     this.setState(newState);
   }
@@ -53,6 +56,7 @@ class TextField extends Component<P> {
       style,
       icon,
       iconOnRight,
+      onBlur,
       ...other
     } = this.props;
 
