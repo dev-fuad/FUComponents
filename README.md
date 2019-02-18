@@ -6,4 +6,8 @@ Custom components to kick start my react-native projects.
 - [x] Navbar
 - [x] TextInput
 - [ ] Button
+  - [x] Simple button with icon
+  - [ ] Button with Loading state
 - [ ] DatePicker
+- [ ] UI Blocking ActivityIndicator
+- [ ] PopUp
