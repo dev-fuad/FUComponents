@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import Navbar from './app/components/common/Navbar';
 import TextField from './app/components/common/TextField';
+import Button from './app/components/common/Button';
 
 import icon from './assets/icon.png';
 
@@ -30,6 +31,12 @@ export default class App extends React.Component {
             value={value}
             onChangeText={text => this.setState({ text })}
             validator={() => value.length > 4}
+          />
+          <View style={{ height: 20 }} />
+          <Button
+            title="Submit!"
+            icon={icon}
+            style={{ alignSelf: 'center' }}
           />
         </View>
       </View>
