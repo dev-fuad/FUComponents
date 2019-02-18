@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, TextInput, View, Image,
+  StyleSheet, TextInput, View, Image, ImageSourcePropType,
 } from 'react-native';
 
 type P = {
@@ -8,7 +8,7 @@ type P = {
   onBlur: Function,
   containerStyle: StyleSheet.Style,
   style: StyleSheet.Style,
-  icon: any,
+  icon: ImageSourcePropType,
   iconOnRight: boolean,
 };
 
