@@ -10,4 +10,4 @@ Custom components to kick start my react-native projects.
   - [ ] Button with Loading state
 - [ ] DatePicker
 - [ ] UI Blocking ActivityIndicator
-- [ ] PopUp
+- [x] PopUp
