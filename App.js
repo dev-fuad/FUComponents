@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 
 import Navbar from './app/components/common/Navbar';
 import TextField from './app/components/common/TextField';
 import Button from './app/components/common/Button';
+import DatePicker from './app/components/common/DatePicker';
 
 import icon from './assets/icon.png';
 
@@ -12,15 +13,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
 });
 
 export default class App extends React.Component {
   state = {
     text: '',
+    date: '',
   };
 
   render() {
-    const { text: value } = this.state;
+    const { text: value, date } = this.state;
     return (
       <View style={styles.container}>
         <Navbar title="Custom Components" />
@@ -33,10 +40,28 @@ export default class App extends React.Component {
             validator={() => value.length > 4}
           />
           <View style={{ height: 20 }} />
-          <Button
-            title="Submit!"
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Submit!"
+              icon={icon}
+              onPress={() => Alert.alert('Button 1 Pressed!')}
+            />
+            <Button
+              icon={icon}
+              onPress={() => Alert.alert('Button 2 Pressed!')}
+            />
+            <Button
+              title="Submit!"
+              onPress={() => Alert.alert('Button 3 Pressed!')}
+            />
+          </View>
+          <View style={{ height: 20 }} />
+          <DatePicker
             icon={icon}
-            style={{ alignSelf: 'center' }}
+            placeholder="Enter Date Here..."
+            value={date}
+            onChangeText={text => this.setState({ date: text })}
+            iconOnRight
           />
         </View>
       </View>
