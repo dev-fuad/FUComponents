@@ -3,7 +3,7 @@
 Custom components to kick start my react-native projects.
 
 - [x] Utilities
-- [x] Navbar
+- [x] Navbar (w. Back Button)
 - [x] TextInput
 - [ ] Button
   - [x] Simple button with icon

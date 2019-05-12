@@ -10,6 +10,16 @@ import { Screens } from '../../constants/NavConstants';
 
 import icon from '../../../assets/icon.png';
 
+type P = {
+  navigation: {
+    push: Function,
+  },
+};
+
+type S = {
+  text: string,
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -17,7 +27,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class HomeScreen extends React.Component {
+export default class HomeScreen extends React.Component<P, S> {
   state = {
     text: '',
   };
