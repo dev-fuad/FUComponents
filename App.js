@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import Navbar from './app/components/common/Navbar';
 import TextField from './app/components/common/TextField';
 import Button from './app/components/common/Button';
 import FUAlert from './app/components/common/popup/Alert';
+import Slider from './app/components/common/Slider';
 
 import icon from './assets/icon.png';
 
@@ -15,13 +16,16 @@ const styles = StyleSheet.create({
   },
 });
 
+const VerticalSpacer = () => <View style={{ height: 20 }} />;
+
 export default class App extends React.Component {
   state = {
     text: '',
+    value: 75,
   };
 
   render() {
-    const { text: value } = this.state;
+    const { text: value, value: page } = this.state;
     const loremText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
     return (
       <View style={styles.container}>
@@ -34,13 +38,13 @@ export default class App extends React.Component {
             onChangeText={text => this.setState({ text })}
             validator={() => value.length > 4}
           />
-          <View style={{ height: 20 }} />
+          <VerticalSpacer />
           <Button
             title="Submit!"
             icon={icon}
             style={{ alignSelf: 'center' }}
           />
-          <View style={{ height: 20 }} />
+          <VerticalSpacer />
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' }}>
             <Button
               title="Show Popup!"
@@ -53,6 +57,26 @@ export default class App extends React.Component {
               onPress={() => this.sheet.show('Title', loremText, icon)}
             />
           </View>
+          <VerticalSpacer />
+          <Slider
+            min={50}
+            max={100}
+            value={page}
+          />
+          <VerticalSpacer />
+          <Button
+            title=">>>  +  <<<"
+            style={{ alignSelf: 'center' }}
+            onPress={() => this.setState({ value: page + 10 })}
+          />
+          <VerticalSpacer />
+          <Button
+            title=">>>  -  <<<"
+            style={{ alignSelf: 'center' }}
+            onPress={() => this.setState({ value: page - 10 })}
+          />
+          <VerticalSpacer />
+          <Text>Page #{page}</Text>
           <FUAlert
             ref={(ref) => { this.popUp = ref; }}
             imageStyle={{ height: 20, width: 20 }}
