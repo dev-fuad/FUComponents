@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Animated } from 'react-native';
+import { StyleSheet, View, Animated, PanResponder } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,9 +30,12 @@ const styles = StyleSheet.create({
 });
 
 type P = {
-  min: number,
-  max: number,
-  value: number,
+  min?: Number,
+  max?: Number,
+  value?: Number,
+  clampRight?: Number,
+  clampLeft?: Number,
+  onValueChange?: Function,
 };
 
 class Slider extends Component<P> {
@@ -46,12 +49,27 @@ class Slider extends Component<P> {
       percentValue,
       positionValue: new Animated.Value(0),
     };
+
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderStart: this.handlePanResponderStart,
+      onPanResponderMove: this.handlePanResponderMove,
+      onPanResponderRelease: this.handlePanResponderRelease,
+    });
   }
 
   componentDidUpdate(prevProps) {
     const { value } = this.props;
     if (prevProps.value !== value) {
-      const { min, max } = this.props;
+      const {
+        min, max, clampLeft, clampRight,
+      } = this.props;
+
+      if (value < Math.max(clampLeft || 0, min)
+        || value > Math.min(clampRight || max, max)) {
+        return;
+      }
+
       const percentValue = ((value - min) * 100) / (max - min);
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ percentValue }, () => {
@@ -69,6 +87,39 @@ class Slider extends Component<P> {
     positionValue.setValue(position);
   }
 
+  handlePanResponderStart = () => {
+    const { percentValue } = this.state;
+    this.currPosition = this.width * percentValue / 100;
+  }
+
+  handlePanResponderMove = (event, gesture) => {
+    const {
+      min, max, clampLeft, clampRight, onValueChange,
+    } = this.props;
+    const { positionValue } = this.state;
+
+    // Get current position of slider
+    const ratio = this.width / (max - min);
+
+    // Calculate new position of slider
+    const newPosition = this.currPosition + gesture.dx;
+
+    const newValue = Math.round((newPosition / ratio) + min);
+
+    if (newValue < Math.max(clampLeft || 0, min)
+      || newValue > Math.min(clampRight || max, max)) {
+      return;
+    }
+
+    // Get percent value for setting view state
+    const percentValue = (newPosition * 100) / this.width;
+
+    this.setState({ percentValue }, () => {
+      positionValue.setValue(newPosition);
+      if (onValueChange) onValueChange(newValue);
+    });
+  }
+
   render() {
     const { percentValue, positionValue } = this.state;
     return (
@@ -84,10 +135,22 @@ class Slider extends Component<P> {
             style={[styles.tail, { width: `${percentValue}%` }]}
           />
         </View>
-        <Animated.View style={[styles.pointer, { transform: [{ translateX: positionValue }] }]} />
+        <Animated.View
+          {...this.panResponder.panHandlers}
+          style={[styles.pointer, { transform: [{ translateX: positionValue }] }]}
+        />
       </View>
     );
   }
 }
+
+Slider.defaultProps = {
+  min: 0,
+  max: 100,
+  value: 0,
+  clampRight: null,
+  clampLeft: null,
+  onValueChange: null,
+};
 
 export default Slider;

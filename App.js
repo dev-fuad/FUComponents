@@ -61,7 +61,9 @@ export default class App extends React.Component {
           <Slider
             min={50}
             max={100}
+            clampLeft={60}
             value={page}
+            onValueChange={val => this.setState({ value: val })}
           />
           <VerticalSpacer />
           <Button
