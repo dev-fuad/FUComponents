@@ -78,7 +78,7 @@ export default class App extends React.Component {
             onPress={() => this.setState({ value: page - 10 })}
           />
           <VerticalSpacer />
-          <Text>Page #{page}</Text>
+          <Text>{`Page #${page}`}</Text>
           <FUAlert
             ref={(ref) => { this.popUp = ref; }}
             imageStyle={{ height: 20, width: 20 }}

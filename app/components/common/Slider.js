@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Animated, PanResponder } from 'react-native';
+import {
+  StyleSheet, View, Animated, PanResponder,
+} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,12 +22,16 @@ const styles = StyleSheet.create({
   pointer: {
     position: 'absolute',
     left: -10,
-    height: 20,
-    width: 20,
+    height: 25,
+    width: 25,
+    backgroundColor: 'cyan',
+    borderRadius: 13,
+    padding: 7,
+  },
+  pointerInnerCircle: {
+    flex: 1,
+    borderRadius: 9,
     backgroundColor: 'orange',
-    borderColor: 'cyan',
-    borderWidth: 5,
-    borderRadius: 10,
   },
 });
 
@@ -46,6 +52,7 @@ class Slider extends Component<P> {
     const percentValue = ((value - min) * 100) / (max - min);
 
     this.state = {
+      value,
       percentValue,
       positionValue: new Animated.Value(0),
     };
@@ -58,25 +65,32 @@ class Slider extends Component<P> {
     });
   }
 
-  componentDidUpdate(prevProps) {
-    const { value } = this.props;
-    if (prevProps.value !== value) {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { value } = nextProps;
+    if (prevState.value !== value) {
       const {
         min, max, clampLeft, clampRight,
-      } = this.props;
+      } = nextProps;
 
       if (value < Math.max(clampLeft || 0, min)
         || value > Math.min(clampRight || max, max)) {
-        return;
+        return null;
       }
 
       const percentValue = ((value - min) * 100) / (max - min);
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ percentValue }, () => {
-        if (this.width) {
-          this.setWidthValue(this.width, percentValue);
-        }
-      });
+      return {
+        ...prevState,
+        value,
+        percentValue,
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate() {
+    const { percentValue } = this.state;
+    if (this.width) {
+      this.setWidthValue(this.width, percentValue);
     }
   }
 
@@ -138,7 +152,9 @@ class Slider extends Component<P> {
         <Animated.View
           {...this.panResponder.panHandlers}
           style={[styles.pointer, { transform: [{ translateX: positionValue }] }]}
-        />
+        >
+          <View style={styles.pointerInnerCircle} />
+        </Animated.View>
       </View>
     );
   }
